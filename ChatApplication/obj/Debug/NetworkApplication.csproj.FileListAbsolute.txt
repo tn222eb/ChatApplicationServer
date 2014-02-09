@@ -6,3 +6,4 @@ c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatAppl
 c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\NetworkApplication.csproj.GenerateResource.Cache
 c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\ChatApplication.exe
 c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\ChatApplication.pdb
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\NetworkApplication.csprojResolveAssemblyReference.cache

@@ -9,37 +9,34 @@ namespace NetworkApplication
 {
     public class ClientRequestHandler
     {
-        TcpClient _clientSocket;
-        NetworkStream _networkStream = null;
+        User _user;
 
-        public ClientRequestHandler(TcpClient _clientConnected)
+        public ClientRequestHandler(User _clientConnected)
         {
-            this._clientSocket = _clientConnected;
+            this._user = _clientConnected;
         }
         public void StartClient()
         {
-            _networkStream = _clientSocket.GetStream();
             WaitForRequest();
         }
 
         public void WaitForRequest()
         {
-            int bufferSize = _clientSocket.ReceiveBufferSize;
+            int bufferSize = _user.Client.ReceiveBufferSize;
             byte[] buffer = new byte[bufferSize];
             Console.WriteLine("Waiting for request");
-            _networkStream.BeginRead(buffer, 0, buffer.Length, ReadCallback, buffer);
+            _user.NetworkStream.BeginRead(buffer, 0, buffer.Length, ReadCallback, buffer);
         }
 
         private void ReadCallback(IAsyncResult _result)
         {
-            NetworkStream networkStream = _clientSocket.GetStream();
+            NetworkStream networkStream = _user.NetworkStream;
             try
             {
                 int read = networkStream.EndRead(_result);
                 if (read == 0)
                 {
-                    _networkStream.Close();
-                    _clientSocket.Close();
+                    _user.CloseUserConnection();
                     return;
                 }
 
@@ -56,8 +53,7 @@ namespace NetworkApplication
             {
                 throw e;
             }
-
-            this.WaitForRequest();
+            _user.CloseUserConnection();
         }
     }
 }

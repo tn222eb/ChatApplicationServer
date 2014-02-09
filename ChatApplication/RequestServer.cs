@@ -27,20 +27,30 @@ namespace NetworkApplication
 
         }
 
-        private static void ListenForClientConnection()
+        private static async void ListenForClientConnection()
         {
-            _listener.BeginAcceptTcpClient(new AsyncCallback(OnClientConnectionCallback), new object()); //Asynchronous way to handle incoming clients
+            while (_isListening)
+            {
+                try
+                {
+                    var client = await _listener.AcceptTcpClientAsync();
+                    OnClientConnectionCallback(client);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Stopped Listening for Clients.");
+                }
+            }
         }
 
-        private static void OnClientConnectionCallback(IAsyncResult _ar)
+        private static void OnClientConnectionCallback(TcpClient client)
         {
             try
             {
+                TcpClient clientSocket = (TcpClient) client;
+                User user = new User(clientSocket);
                 Console.WriteLine("Connected!");
-                TcpClient clientSocket = default(TcpClient);
-                clientSocket = _listener.EndAcceptTcpClient(_ar);
-                Console.WriteLine("Connected!");
-                ClientRequestHandler clientReq = new ClientRequestHandler(clientSocket); // Handle each connection
+                ClientRequestHandler clientReq = new ClientRequestHandler(user); // Handle each connection
                 clientReq.StartClient();
             }
             catch (Exception e)
