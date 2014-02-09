@@ -70,6 +70,8 @@ namespace NetworkApplication
 
                         // Process the data sent by the client.
                         chatroomHandler.PerformChatroomTasksWithJson(user, data);
+                        if (!networkStream.CanRead || !networkStream.CanWrite)
+                            break;
                     }
 
                 }

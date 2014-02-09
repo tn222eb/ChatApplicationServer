@@ -54,7 +54,7 @@ namespace NetworkApplication
 
             if (chatroom == null)
             {
-                Console.WriteLine("Create a new chatroom!");
+                Console.WriteLine("Create a new chatroom!: " + request.chatroom);
                 chatroom = new Chatroom(request.chatroom);
                 chatroom.AddUser(_user);
                 this._chatrooms.AddChatroomWithKey(request.chatroom, chatroom);
