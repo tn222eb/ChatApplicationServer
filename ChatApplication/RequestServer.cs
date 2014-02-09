@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -69,11 +70,19 @@ namespace NetworkApplication
                         Console.WriteLine("Received: {0}", data);
 
                         // Process the data sent by the client.
-                        chatroomHandler.PerformChatroomTasksWithJson(user, data);
+                        new Task(() =>
+                        {
+                            chatroomHandler.PerformChatroomTasksWithJson(user, data);
+                        }).Start();
                         if (!networkStream.CanRead || !networkStream.CanWrite)
                             break;
                     }
 
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("NetworkStream no longer listening to disconnected client.");
+                    //TODO: Handle Lost connection by removing user from chatroom
                 }
                 catch (SocketException e)
                 {

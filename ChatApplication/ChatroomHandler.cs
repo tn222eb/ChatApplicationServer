@@ -62,8 +62,14 @@ namespace NetworkApplication
             else
             {
                 Console.WriteLine("Channel already exists! With the users: ");
+                bool isAlreadyInChatroom = false;
                 foreach (User user in chatroom.GetUsers())
-                    Console.WriteLine(user.Name);
+                {
+                    if (user.Equals(_user))
+                        isAlreadyInChatroom = true;
+                }
+                if (!isAlreadyInChatroom)
+                    chatroom.AddUser(_user);
             }
             
             if(request.disconnect)
