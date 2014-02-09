@@ -23,47 +23,72 @@ namespace NetworkApplication
             _listener.Start();
             _isListening = true;
             Console.WriteLine("Starting Server on " + _ip + ":" + _port);
-            ListenForClientConnection();
-
+            HandleClientConnections();
         }
 
-        private static async void ListenForClientConnection()
+        private static void HandleClientConnections()
         {
-            while (_isListening)
+            new Task(() =>
             {
                 try
                 {
-                    var client = await _listener.AcceptTcpClientAsync();
-                    OnClientConnectionCallback(client);
+                    while (_isListening)
+                    {
+                        Console.WriteLine("Waiting on connection");
+
+                        TcpClient client = _listener.AcceptTcpClient();
+                        Console.WriteLine("Connected!");
+                        ReadClientData(client);
+                    }
                 }
-                catch (Exception e)
+                catch (SocketException e)
                 {
-                    Console.WriteLine("Stopped Listening for Clients.");
+                    Console.WriteLine("SocketException: {0}", e);
                 }
-            }
+            }).Start();
         }
 
-        private static void OnClientConnectionCallback(TcpClient client)
+        private static void ReadClientData(TcpClient client)
         {
-            try
+            new Task(() =>
             {
-                TcpClient clientSocket = (TcpClient) client;
-                User user = new User(clientSocket);
-                Console.WriteLine("Connected!");
-                ClientRequestHandler clientReq = new ClientRequestHandler(user); // Handle each connection
-                clientReq.StartClient();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+                try
+                {
+                    User user = new User(client);
+                    NetworkStream networkStream = user.NetworkStream;
+                    int i;
+                    Byte[] bytes = new Byte[256];
+                    String data = null;
+                    while ((i = networkStream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        // Translate data bytes to a ASCII string.
+                        data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                        Console.WriteLine("Received: {0}", data);
+
+                        // Process the data sent by the client.
+                        data = data.ToUpper();
+
+                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+
+                        // Send back a response.
+                        networkStream.Write(msg, 0, msg.Length);
+                        Console.WriteLine("Sent: {0}", data);
+                    }
+                    // Shutdown and end connection
+                    client.Close();
+                }
+                catch (SocketException e)
+                {
+                    Console.WriteLine("SocketException: {0}", e);
+                }
+
+            }).Start();
         }
 
         public static void StopListener()
         {
             _listener.Stop();
-            _isListening = false;
-            Console.WriteLine("Stopping Server");
         }
+
     }
 }
