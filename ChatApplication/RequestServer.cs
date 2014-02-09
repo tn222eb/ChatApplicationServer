@@ -44,6 +44,8 @@ namespace NetworkApplication
                 catch (SocketException e)
                 {
                     Console.WriteLine("SocketException: {0}", e);
+                    StopListener();
+                    _isListening = false;
                 }
             }).Start();
         }
@@ -56,6 +58,7 @@ namespace NetworkApplication
                 {
                     User user = new User(client);
                     NetworkStream networkStream = user.NetworkStream;
+                    ChatroomHandler chatroomHandler = ChatroomHandler.GetInstance;
                     int i;
                     Byte[] bytes = new Byte[256];
                     String data = null;
@@ -66,20 +69,15 @@ namespace NetworkApplication
                         Console.WriteLine("Received: {0}", data);
 
                         // Process the data sent by the client.
-                        data = data.ToUpper();
-
-                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-
-                        // Send back a response.
-                        networkStream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("Sent: {0}", data);
+                        chatroomHandler.PerformChatroomTasksWithJson(user, data);
                     }
-                    // Shutdown and end connection
-                    client.Close();
+
                 }
                 catch (SocketException e)
                 {
                     Console.WriteLine("SocketException: {0}", e);
+                    StopListener();
+                    _isListening = false;
                 }
 
             }).Start();
