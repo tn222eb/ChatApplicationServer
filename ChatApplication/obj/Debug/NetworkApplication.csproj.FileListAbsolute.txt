@@ -8,3 +8,6 @@ c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatAppl
 c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\ChatApplication.pdb
 c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\NetworkApplication.csprojResolveAssemblyReference.cache
 c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\bin\Debug\Newtonsoft.Json.dll
+C:\Users\josh\Desktop\ChatApplicationServer\ChatApplication\bin\Debug\ChatApplication.exe.config
+C:\Users\josh\Desktop\ChatApplicationServer\ChatApplication\obj\Debug\ChatApplication.exe
+C:\Users\josh\Desktop\ChatApplicationServer\ChatApplication\obj\Debug\ChatApplication.pdb

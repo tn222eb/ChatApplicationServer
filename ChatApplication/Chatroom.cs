@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace NetworkApplication
 {
+    // Comment
     public class Chatroom
     {
         private string _roomName;
