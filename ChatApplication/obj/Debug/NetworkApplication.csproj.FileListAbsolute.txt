@@ -1,0 +1,8 @@
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\bin\Debug\ChatApplication.exe.config
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\bin\Debug\ChatApplication.exe
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\bin\Debug\ChatApplication.pdb
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\NetworkApplication.MainForm.resources
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\NetworkApplication.Properties.Resources.resources
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\NetworkApplication.csproj.GenerateResource.Cache
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\ChatApplication.exe
+c:\users\ianjcksn\documents\visual studio 2012\Projects\ChatApplication\ChatApplication\obj\Debug\ChatApplication.pdb
