@@ -23,11 +23,11 @@ namespace NetworkApplication
         private static MainForm _instance = new MainForm();
         public static MainForm GetInstance { get { return _instance; } }
 
-        private ListViewItem lvi;
 
         private MainForm()
         {
             InitializeComponent();
+            Console.WriteLine(GetIP());
         }
 
         private void ControlServerBtn_Click(object sender, EventArgs e)
@@ -35,7 +35,8 @@ namespace NetworkApplication
             bool isRequestServerListening = RequestServer.IsListening;
             if (!isRequestServerListening)
             {
-                RequestServer.StartListener(IPAddress.Loopback.ToString(), 1337);
+                RequestServer.StartListener(GetIP(), 1337);
+                
                 this.controlServerBtn.Text = this.STOP_SERVER_STRING;
             }
             else
@@ -43,6 +44,20 @@ namespace NetworkApplication
                 RequestServer.StopListener();
                 this.controlServerBtn.Text = this.START_SERVER_STRING;
             }
+        }
+
+        private string GetIP(){
+            IPHostEntry host;
+            string localIP = "";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily.ToString() == "InterNetwork")
+                {
+                    localIP = ip.ToString();
+                }
+            }
+            return localIP;
         }
 
         public void PopulateCurrentUsersListView(string[] _chatroomNames)
@@ -54,8 +69,8 @@ namespace NetworkApplication
             }
             else
             {
-                lvi = new ListViewItem(_chatroomNames);
                 this.currentChatroomsListview.Items.Clear();
+                ListViewItem lvi = new ListViewItem(_chatroomNames);
                 this.currentChatroomsListview.Items.Add(lvi);
             }
         }
