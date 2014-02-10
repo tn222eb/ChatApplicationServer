@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace NetworkApplication
 {
+
+    public delegate void UpdateCurrenChatroomNamesHandler(string[] _chatroomNames);
+
     public partial class MainForm : Form
     {
 
@@ -19,6 +22,8 @@ namespace NetworkApplication
 
         private static MainForm _instance = new MainForm();
         public static MainForm GetInstance { get { return _instance; } }
+
+        private ListViewItem lvi;
 
         private MainForm()
         {
@@ -37,6 +42,21 @@ namespace NetworkApplication
             {
                 RequestServer.StopListener();
                 this.controlServerBtn.Text = this.START_SERVER_STRING;
+            }
+        }
+
+        public void PopulateCurrentUsersListView(string[] _chatroomNames)
+        {
+            if (this.InvokeRequired)
+            {
+                UpdateCurrenChatroomNamesHandler d = new UpdateCurrenChatroomNamesHandler(PopulateCurrentUsersListView);
+                this.Invoke(d, new object[] { _chatroomNames });
+            }
+            else
+            {
+                lvi = new ListViewItem(_chatroomNames);
+                this.currentChatroomsListview.Items.Clear();
+                this.currentChatroomsListview.Items.Add(lvi);
             }
         }
 

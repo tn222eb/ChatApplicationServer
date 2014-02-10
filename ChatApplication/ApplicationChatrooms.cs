@@ -43,6 +43,23 @@ namespace NetworkApplication
             return null;
         }
 
+        public Chatroom[] GetChatroomArray()
+        {
+            return this._chatrooms.Values.ToArray();
+        }
+
+        public string[] GetChatroomNamesArray()
+        {
+            Chatroom[] chatrooms = GetChatroomArray();
+            int count = chatrooms.Length;
+            string[] names = new string[count];
+            for (int i = 0; i < count; ++i)
+            {
+                names[i] = chatrooms[i].RoomName;
+            }
+            return names;
+        }
+
 
     }
 }

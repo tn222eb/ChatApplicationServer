@@ -37,10 +37,12 @@ namespace NetworkApplication
         }
 
         private ApplicationChatrooms _chatrooms;
+        private MainForm _mainForm;
 
         private ChatroomHandler()
         {
             this._chatrooms = ApplicationChatrooms.GetInstance;
+            this._mainForm = MainForm.GetInstance;
         }
 
         public void PerformChatroomTasksWithJson(User _user, string _json)
@@ -52,12 +54,15 @@ namespace NetworkApplication
             Chatroom chatroom = this._chatrooms.SearchChatroomWithKey(request.chatroom);
             _user.Name = request.username;
 
+            //TODO: Check if users list in Request is empty and assume that he is not apart of chatroom
+
             if (chatroom == null)
             {
                 Console.WriteLine("Create a new chatroom!: " + request.chatroom);
                 chatroom = new Chatroom(request.chatroom);
                 chatroom.AddUser(_user);
                 this._chatrooms.AddChatroomWithKey(request.chatroom, chatroom);
+                _mainForm.PopulateCurrentUsersListView(this._chatrooms.GetChatroomNamesArray());
             }
             else
             {
@@ -79,10 +84,21 @@ namespace NetworkApplication
 
 
             // TODO: Add stuff with messages and users
+
+            request.users = GetChatroomUsernames(chatroom);
             SendMessageToUsers(chatroom, request);
-            
+        }
 
-
+        private string[] GetChatroomUsernames(Chatroom _chatroom)
+        {
+            User[] users = _chatroom.GetUsers();
+            int count = users.Length;
+            string[] usernames = new string[count];
+            for (int i = 0; i < count; ++i)
+            {
+                usernames[i] = users[i].Name;
+            }
+            return usernames;
         }
 
         private void DisconnectUserFromChatroom(Chatroom _chatroom, string _userName)
@@ -95,6 +111,7 @@ namespace NetworkApplication
             {
                 _chatrooms.RemoveChatroomWithKey(_chatroom.RoomName);
                 Console.WriteLine("Chatroom Removed!: " + _chatroom.RoomName);
+                _mainForm.PopulateCurrentUsersListView(this._chatrooms.GetChatroomNamesArray());
             }
         }
 
