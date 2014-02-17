@@ -52,9 +52,9 @@ namespace NetworkApplication
             return -1;
         }
 
-        public int SearchUserWithName(string _name) //******
+        public int SearchUserWithIP(string _ip) //******
         {
-            User user = new User(_name);
+            User user = new User(_ip);
             return SearchUser(user);
         }
 
@@ -66,9 +66,9 @@ namespace NetworkApplication
             RemoveSearchedUser(isInChatroom, index);
         }
 
-        public void RemoveUserWithName(string _name) //******
+        public void RemoveUserWithIP(string _ip) //******
         {
-            User user = new User(_name);
+            User user = new User(_ip);
             int index = SearchUser(user);
             bool isInChatroom = index != -1;
             RemoveSearchedUser(isInChatroom, index);

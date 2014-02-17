@@ -16,6 +16,7 @@ namespace NetworkApplication
         public bool disconnect;
         public string chatroom;
         public string username;
+        public string ipaddress;
         public string message;
         public string[] users;
         
@@ -79,7 +80,7 @@ namespace NetworkApplication
             
             if(request.disconnect)
             {
-                DisconnectUserFromChatroom(chatroom, request.username);
+                DisconnectUserFromChatroom(chatroom, request.ipaddress);
             }
 
 
@@ -101,10 +102,10 @@ namespace NetworkApplication
             return usernames;
         }
 
-        private void DisconnectUserFromChatroom(Chatroom _chatroom, string _userName)
+        private void DisconnectUserFromChatroom(Chatroom _chatroom, string _userIpAddress)
         {
-            _chatroom.RemoveUserWithName(_userName);
-            Console.WriteLine("User Removed!: " + _userName);
+            _chatroom.RemoveUserWithIP(_userIpAddress);
+            Console.WriteLine("User Removed!: " + _userIpAddress);
             User[] users = _chatroom.GetUsers();
             int numberOfUsers = users.Length;
             if (numberOfUsers == 0)

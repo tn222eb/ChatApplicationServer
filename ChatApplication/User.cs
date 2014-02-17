@@ -10,6 +10,13 @@ namespace NetworkApplication
     public class User
     {
 
+        private string _ipAddress;
+        public string IPAddress
+        {
+            get { return this._ipAddress; }
+            set { this._ipAddress = value; }
+        }
+
         private TcpClient _client;
         public TcpClient Client
         {
@@ -40,12 +47,13 @@ namespace NetworkApplication
 
         public User(TcpClient _client)
         {
-            this.Client = _client;
+            this._client = _client;
+            this._ipAddress = _client.Client.RemoteEndPoint.ToString();
         }
 
-        public User(string _name)
+        public User(string _ip)
         {
-            this._name = _name;
+            this._ipAddress = _ip;
         }
 
         public void CloseUserConnection()
@@ -58,7 +66,7 @@ namespace NetworkApplication
         {
             if (_user == null)
                 return false;
-            return this._name == _user.Name;
+            return this._ipAddress == _user.IPAddress;
         }
 
     }
